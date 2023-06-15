@@ -29,9 +29,9 @@ app.get("/news", (req, res)=>{
 })
 
 
-var todayques = []
 
 app.get("/today-quiz", (req, res)=>{
+    let todayques = []
     axios.get("https://byjusexamprep.com/current-affairs")
     .then((response)=>{
         const html = response.data
@@ -41,7 +41,6 @@ app.get("/today-quiz", (req, res)=>{
             todayques.push({
                 question: text
             })
-            // console.log(text)
         })
         res.json(todayques)
     })
