@@ -137,5 +137,11 @@ app.get("/today-quiz", (req, res) => {
       });
     });
     res.json(todayques);
+  })
+  .catch((err) => {
+    const error = err.response;
+    if (error.status == "404") {
+      res.status(404).json("I dont have that");
+    }
   });
 });
