@@ -2,6 +2,7 @@ const express = require("express");
 const cherrio = require("cheerio");
 const axios = require("axios");
 const app = express();
+const PORT = process.env || "8000"
 
 app.listen("8000", () => {
   console.log("App Listenin To Port 8000");
@@ -122,6 +123,28 @@ app.get("/today", (req, res) => {
 //       res.json(currentaffairs);
 //     });
 // });
+
+app.get("/history-of-today", (req, res)=>{
+  let historyoftoday = []
+
+  axios.get("https://www.indianage.com/indian_history")
+  .then((response)=>{
+    const html = response.data
+    const $ = cherrio.load(html)
+    $(".timeline_box").each(function(){
+      const date = $(this).children(".date").text()
+      const desc = $(this).children(".row").text()
+      historyoftoday.push({
+        date : date,
+        description: desc
+      })
+    })
+    res.json(historyoftoday)
+  })
+  .catch((err)=>{
+    res.status(404).json("I don't have that. Try after some time.")
+  })
+})
 
 app.get("/today-quiz", (req, res) => {
   let todayques = [];
