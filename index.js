@@ -33,9 +33,9 @@ app.get("/today", (req, res) => {
   var year = today.getFullYear();
   let day = today.getDate();
 
-  let dayString = day.toString()
+  let dayString = day.toString();
 
-  if ((dayString).length == 1) {
+  if (dayString.length == 1) {
     dayString = "0" + dayString;
   }
 
@@ -61,7 +61,6 @@ app.get("/today", (req, res) => {
           titles.push(title);
         }
       });
-
       $(".entry-content ul", html).each(function () {
         const desc = $(this).text();
         if (!desc.startsWith("Top 15") && !desc.startsWith("Check More")) {
@@ -77,7 +76,13 @@ app.get("/today", (req, res) => {
       }
 
       res.json(currentaffairs);
-    
+    })
+
+    .catch((err) => {
+      const error = err.response;
+      if (error.status == "404") {
+        res.status(404).json("I dont have that");
+      }
     });
 });
 
@@ -94,14 +99,14 @@ app.get("/today", (req, res) => {
 //       let titles = [];
 //       let description = [];
 //       let currentaffairs = [];
-      
+
 //       $(".entry-content p strong", html).each(function () {
 //         const title = $(this).text();
 //         if (isNumber(title.charAt(0)) && title.includes(".")) {
 //           titles.push(title);
 //         }
 //       });
-      
+
 //       $(".entry-content ul", html).each(function () {
 //         const desc = $(this).text();
 //         if (!desc.startsWith("Top 15") && !desc.startsWith("Check More")) {
@@ -134,4 +139,3 @@ app.get("/today-quiz", (req, res) => {
     res.json(todayques);
   });
 });
-
