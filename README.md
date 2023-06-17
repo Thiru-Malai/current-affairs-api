@@ -7,7 +7,7 @@ This API provides the Current Affairs of India and International News and daily 
 3. Current affair for any day ( dev )
 4. Today in Indian History
 
-# Installaion
+# Installation
 `npm install`
 
 Endpoints:
