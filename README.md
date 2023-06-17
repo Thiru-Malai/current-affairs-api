@@ -21,7 +21,7 @@ const options = {
   method: 'GET',
   url: 'https://current-affairs-of-india.p.rapidapi.com/international-today',
   headers: {
-    'X-RapidAPI-Key': '9bff012c16msh5470f9994d044c2p1bd648jsn0748463ea5fd',
+    'X-RapidAPI-Key': 'your-rapidapi-key',
     'X-RapidAPI-Host': 'current-affairs-of-india.p.rapidapi.com'
   }
 };
@@ -42,7 +42,7 @@ const options = {
   method: 'GET',
   url: 'https://current-affairs-of-india.p.rapidapi.com/recent',
   headers: {
-    'X-RapidAPI-Key': '9bff012c16msh5470f9994d044c2p1bd648jsn0748463ea5fd',
+    'X-RapidAPI-Key': 'your-rapidapi-key',
     'X-RapidAPI-Host': 'current-affairs-of-india.p.rapidapi.com'
   }
 };
@@ -64,7 +64,7 @@ const options = {
   method: 'GET',
   url: 'https://current-affairs-of-india.p.rapidapi.com/today-quiz',
   headers: {
-    'X-RapidAPI-Key': '9bff012c16msh5470f9994d044c2p1bd648jsn0748463ea5fd',
+    'X-RapidAPI-Key': 'your-rapidapi-key',
     'X-RapidAPI-Host': 'current-affairs-of-india.p.rapidapi.com'
   }
 };
@@ -86,7 +86,7 @@ const options = {
   method: 'GET',
   url: 'https://current-affairs-of-india.p.rapidapi.com/history-of-today',
   headers: {
-    'X-RapidAPI-Key': '9bff012c16msh5470f9994d044c2p1bd648jsn0748463ea5fd',
+    'X-RapidAPI-Key': 'your-rapidapi-key',
     'X-RapidAPI-Host': 'current-affairs-of-india.p.rapidapi.com'
   }
 };
