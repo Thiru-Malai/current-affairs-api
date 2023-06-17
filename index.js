@@ -2,7 +2,7 @@ const express = require("express");
 const cherrio = require("cheerio");
 const axios = require("axios");
 const app = express();
-const PORT = process.env || "8000"
+const PORT = process.env || "8000";
 
 app.listen("8000", () => {
   console.log("App Listenin To Port 8000");
@@ -87,11 +87,9 @@ function isNumber(c) {
 //     });
 // });
 
-app.get("/today", (req, res) => {
+app.get("/international-today", (req, res) => {
   axios
-    .get(
-      "https://currentaffairs.adda247.com/"
-    )
+    .get("https://currentaffairs.adda247.com/")
     .then((response) => {
       const html = response.data;
       const $ = cherrio.load(html);
@@ -100,53 +98,78 @@ app.get("/today", (req, res) => {
 
       $(".trending_news .lcp_catlist li", html).each(function () {
         const desc = $(this).text();
-          currentaffairs.push(desc);
+        currentaffairs.push(desc);
       });
       res.json(currentaffairs);
+    })
+    .catch((err) => {
+      res.status(404).json("I don't have that");
     });
 });
 
-app.get("/history-of-today", (req, res)=>{
-  let historyoftoday = []
+app.get("/recent", (req, res) => {
+  let currentaffairs = [];
+  axios
+    .get("https://currentaffairs.adda247.com/")
+    .then((response) => {
+      const html = response.data;
+      const $ = cherrio.load(html);
 
-  axios.get("https://www.indianage.com/indian_history")
-  .then((response)=>{
-    const html = response.data
-    const $ = cherrio.load(html)
-    $(".timeline_box").each(function(){
-      const date = $(this).children(".date").text()
-      const desc = $(this).children(".row").text()
-      historyoftoday.push({
-        date : date,
-        description: desc
-      })
+      $("#lcp_instance_4 li", html).each(function () {
+        const desc = $(this).text();
+        currentaffairs.push(desc);
+      });
+      res.json(currentaffairs);
     })
-    res.json(historyoftoday)
-  })
-  .catch((err)=>{
-    res.status(404).json("I don't have that. Try after some time.")
-  })
-})
+    .catch((err) => {
+      res.status(404).json("I don't have that");
+    });
+});
+
+app.get("/history-of-today", (req, res) => {
+  let historyoftoday = [];
+
+  axios
+    .get("https://www.indianage.com/indian_history")
+    .then((response) => {
+      const html = response.data;
+      const $ = cherrio.load(html);
+      $(".timeline_box").each(function () {
+        const date = $(this).children(".date").text();
+        const desc = $(this).children(".row").text();
+        historyoftoday.push({
+          date: date,
+          description: desc,
+        });
+      });
+      res.json(historyoftoday);
+    })
+    .catch((err) => {
+      res.status(404).json("I don't have that. Try after some time.");
+    });
+});
 
 app.get("/today-quiz", (req, res) => {
   let todayques = [];
   let i = 1;
-  axios.get("https://byjusexamprep.com/current-affairs").then((response) => {
-    const html = response.data;
-    const $ = cherrio.load(html);
-    $("li", "ol").each(function () {
-      const text = $(this).text();
-      // let number = "question " + i
-      todayques.push({
-        question: text,
+  axios
+    .get("https://byjusexamprep.com/current-affairs")
+    .then((response) => {
+      const html = response.data;
+      const $ = cherrio.load(html);
+      $("li", "ol").each(function () {
+        const text = $(this).text();
+        // let number = "question " + i
+        todayques.push({
+          question: text,
+        });
       });
+      res.json(todayques);
+    })
+    .catch((err) => {
+      const error = err.response;
+      if (error.status == "404") {
+        res.status(404).json("I dont have that");
+      }
     });
-    res.json(todayques);
-  })
-  .catch((err) => {
-    const error = err.response;
-    if (error.status == "404") {
-      res.status(404).json("I dont have that");
-    }
-  });
 });
