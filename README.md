@@ -2,8 +2,8 @@
 This API provides the Current Affairs of India and International News and daily quizzes for practicing your skills on current affairs.
 
 # Features:
-1. Today current affairs
-2. Quiz for today ( dev )
+1. Today current affairs ( dev )
+2. Quiz for today 
 3. Current affair for any day ( dev )
 4. Today in Indian History
 
