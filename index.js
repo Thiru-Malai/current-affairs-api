@@ -28,101 +28,83 @@ function isNumber(c) {
   return false;
 }
 
-app.get("/today", (req, res) => {
-  var today = new Date();
-  var month = today.toLocaleString("default", { month: "long" });
-  var year = today.getFullYear();
-  let day = today.getDate();
-
-  let dayString = day.toString();
-
-  if (dayString.length == 1) {
-    dayString = "0" + dayString;
-  }
-
-  axios
-    .get(
-      "https://www.bankersadda.com/daily-current-affairs-and-news-headlines-of-" +
-        day +
-        "th-" +
-        month +
-        "-" +
-        year +
-        "/"
-    )
-    .then((response) => {
-      const html = response.data;
-      const $ = cherrio.load(html);
-      let titles = [];
-      let description = [];
-      let currentaffairs = [];
-      $(".entry-content p strong", html).each(function () {
-        const title = $(this).text();
-        if (isNumber(title.charAt(0)) && title.includes(".")) {
-          titles.push(title);
-        }
-      });
-      $(".entry-content ul", html).each(function () {
-        const desc = $(this).text();
-        if (!desc.startsWith("Top 15") && !desc.startsWith("Check More")) {
-          description.push(desc);
-        }
-      });
-
-      for (let i = 0; i < titles.length; i++) {
-        currentaffairs.push({
-          title: titles[i],
-          description: description[i],
-        });
-      }
-
-      res.json(currentaffairs);
-    })
-
-    .catch((err) => {
-      const error = err.response;
-      if (error.status == "404") {
-        res.status(404).json("I dont have that");
-      }
-    });
-});
-
 // app.get("/today", (req, res) => {
+//   var today = new Date();
+//   var month = today.toLocaleString("default", { month: "long" });
+//   var year = today.getFullYear();
+//   let day = today.getDate();
+
+//   let dayString = day.toString();
+
+//   if (dayString.length == 1) {
+//     dayString = "0" + dayString;
+//   }
 
 //   axios
 //     .get(
-//       "https://www.bankersadda.com/daily-current-affairs-and-news-headlines-of-15th-june-2023/"
+//       "https://www.bankersadda.com/daily-current-affairs-and-news-headlines-of-" +
+//         day +
+//         "th-" +
+//         month +
+//         "-" +
+//         year +
+//         "/"
 //     )
 //     .then((response) => {
 //       const html = response.data;
 //       const $ = cherrio.load(html);
-
 //       let titles = [];
 //       let description = [];
 //       let currentaffairs = [];
-
 //       $(".entry-content p strong", html).each(function () {
 //         const title = $(this).text();
 //         if (isNumber(title.charAt(0)) && title.includes(".")) {
 //           titles.push(title);
 //         }
 //       });
-
 //       $(".entry-content ul", html).each(function () {
 //         const desc = $(this).text();
 //         if (!desc.startsWith("Top 15") && !desc.startsWith("Check More")) {
 //           description.push(desc);
 //         }
 //       });
+
 //       for (let i = 0; i < titles.length; i++) {
 //         currentaffairs.push({
 //           title: titles[i],
 //           description: description[i],
 //         });
 //       }
+
 //       res.json(currentaffairs);
+//     })
+
+//     .catch((err) => {
+//       const error = err.response;
+//       if (error.status == "404") {
+//         res.status(404).json("I dont have that");
+//       }
 //     });
 // });
+
+app.get("/today", (req, res) => {
+  axios
+    .get(
+      "https://currentaffairs.adda247.com/"
+    )
+    .then((response) => {
+      const html = response.data;
+      const $ = cherrio.load(html);
+
+      let currentaffairs = [];
+
+      $(".trending_news .lcp_catlist li", html).each(function () {
+        const desc = $(this).text();
+          currentaffairs.push(desc);
+      });
+      res.json(currentaffairs);
+    });
+});
 
 app.get("/history-of-today", (req, res)=>{
   let historyoftoday = []
