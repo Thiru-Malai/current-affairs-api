@@ -115,7 +115,7 @@ app.get("/recent", (req, res) => {
       const html = response.data;
       const $ = cherrio.load(html);
 
-      $("#lcp_instance_4 li", html).each(function () {
+      $("#lcp_instance_3 li", html).each(function () {
         const desc = $(this).text();
         currentaffairs.push(desc);
       });
