@@ -96,7 +96,7 @@ app.get("/international-today", (req, res) => {
 
       let currentaffairs = [];
 
-      $(".trending_news .lcp_catlist li", html).each(function () {
+      $("#lcp_instance_5 li", html).each(function () {
         const desc = $(this).text();
         currentaffairs.push(desc);
       });
